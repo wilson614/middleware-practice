@@ -4,10 +4,15 @@ const app = express()
 const port = 3000
 
 const logger = function (req, res, next) {
-  const time = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+  const Time = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+  const reqTime = Date.now()
   const method = req.method
   const URL = req.originalUrl
-  console.log(`${time} | ${method} from ${URL}`)
+
+  res.on('finish', () => {
+    const resTime = Date.now()
+    console.log(`${Time} | ${method} from ${URL} | total time: ${resTime - reqTime}ms`)
+  })
   next()
 }
 
