@@ -1,6 +1,17 @@
 const express = require('express')
+const moment = require('moment')
 const app = express()
 const port = 3000
+
+const logger = function (req, res, next) {
+  const time = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+  const method = req.method
+  const URL = req.originalUrl
+  console.log(`${time} | ${method} from ${URL}`)
+  next()
+}
+
+app.use(logger)
 
 app.get('/', (req, res) => {
   res.send('列出全部 Todo')
